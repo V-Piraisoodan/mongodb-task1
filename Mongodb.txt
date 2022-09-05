@@ -1,0 +1,42 @@
+1).Find all the topics and tasks which are thought in the month of October
+Ans :
+db.topics.aggregate([
+    {$lookup:{
+        from:'tasks',
+        localField:'topic_id',
+        foreignField:'topic_id',
+        as:'tasks'}},
+    {$match:{month:'october'}
+    }])
+
+2).Find all the company drives which appeared between 15 oct-2020 and 31-oct-2020
+Ans :
+db.company_drives.find(
+                       {$and:[
+                            {date:{$gte:('2020-10-15')}},
+                            {date:{$lte:('2020-10-31')}}
+                            ]})
+
+3).Find all the company drives and students who are appeared for the placement.
+Ans :
+db.company_drives.find()
+
+4).Find the number of problems solved by the user in codekata
+Ans :
+db.codekata.aggregate(
+                    [{$group:{
+                    _id:'$user_id',
+                    NoOfProblemsSolved:{$sum:"$no_of_problems_solved"}}},
+                    ])
+
+5).Find all the mentors with who has the mentee's count more than 15
+Ans :
+db.mentors.find({no_of_mentees:{$gt:'15'}})
+
+6).Find the number of users who are absent and task is not submitted  between 15 oct-2020 and 31-oct-2020
+Ans :
+db.attendance.find(
+                   {$and:[
+                          {date:{$gte:('2020-10-15')}},
+                          {date:{$lte:('2020-10-31')}}
+                         ]})
